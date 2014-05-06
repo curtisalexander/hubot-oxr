@@ -35,12 +35,14 @@ module.exports = (robot) ->
     # Create url string
     oxrUrl = "http://openexchangerates.org/api/latest.json?app_id=" + process.env.OXR_APP_ID
     # API call - JSON returned
+    # TODO: try / catch with the http call
     robot.http(oxrUrl)
       .get() (err, res, body) ->
         data = null
         try
           data = JSON.parse(body)
           # One currency is not USD + said currency exists
+          # TODO: round exchangeAmt
           if oxrFrom.toUpperCase() == 'USD'
             currency = oxrTo.toUpperCase()
             exchangeAmt = oxrAmt * data.rates[currency]
